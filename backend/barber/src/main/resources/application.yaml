@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: barber
+  datasource:
+    url: jdbc:postgresql://localhost:5432/barbershop
+    username: postgres  
+    password: toor
+    driver-class-name: org.postgresql.Driver  
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/barbershop
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs  
+server:
+      port: 8081
+jwt:
+  auth:
+    converter:
+      resource-id: barbershop      

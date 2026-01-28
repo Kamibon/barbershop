@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+:root {
+  height: 100%;
+  width: 100%;
+  font-family: "Playfair";
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+}
