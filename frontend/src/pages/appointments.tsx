@@ -35,7 +35,7 @@ export const Appointments = () => {
   }, []);
 
   useEffect(() => {
-    let id;
+    let id: number;
     if (success || failed) {
       id = setTimeout(() => {
         setSuccess(false);

@@ -6,5 +6,5 @@ export interface CreateServiceRequest {
   name: string;
   duration: number;
   price: number;
-  imagePath: string
+  imagePath?: string
 }

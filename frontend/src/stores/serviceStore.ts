@@ -13,7 +13,7 @@ interface ServiceState {
 export const useService = create<ServiceState>((set) => ({
   findAllService: async () => {
     const data = (await api.get<Service[]>(baseUrl + "services")).data;
-    set({findAllServiceResponse: data})
+    set({ findAllServiceResponse: data });
   },
   findAllServiceResponse: [],
   findAllServiceStatus: "idle",

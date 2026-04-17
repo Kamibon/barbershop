@@ -1,4 +1,3 @@
-
 interface Props {
   title: string;
   message: string;

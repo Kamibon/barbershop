@@ -1,10 +1,13 @@
 package com.barbershop.barber.dtos;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
+@Builder
+@AllArgsConstructor
 @Getter
 public class CreateAppointmentRequest {
     private String clientName;

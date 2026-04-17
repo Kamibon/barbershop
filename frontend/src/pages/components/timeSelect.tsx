@@ -3,7 +3,7 @@ import React from "react";
 const generateTimes = (
   startHour: number = 9,
   endHour: number = 18,
-  intervalMinutes: number = 45
+  intervalMinutes: number = 45,
 ): string[] => {
   const times: string[] = [];
 
@@ -12,7 +12,7 @@ const generateTimes = (
 
   while (hour < endHour || (hour === endHour && minute === 0)) {
     const formattedTime = `${String(hour).padStart(2, "0")}:${String(
-      minute
+      minute,
     ).padStart(2, "0")}`;
     times.push(formattedTime);
 

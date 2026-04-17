@@ -11,7 +11,7 @@
                     </div>
                     <p class="text-lg text-gray-800">{{ name }}</p>
                 </div>
-                <button v-on:click="() => deleteFunction()" type="button" aria-label="more">
+                <button @click="emit('delete')" type="button" aria-label="Elimina prenotazione">
                     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M11 11.917a.917.917 0 1 0 0-1.833.917.917 0 0 0 0 1.833M11 5.5a.917.917 0 1 0 0-1.833.917.917 0 0 0 0 1.833m0 12.834a.917.917 0 1 0 0-1.834.917.917 0 0 0 0 1.834"
@@ -29,7 +29,7 @@
                 <div class="w-full h-px bg-gray-300/60"></div>
                 <div class="flex items-center w-full justify-between">
                     <p>Data</p>
-                    <p>{{ date }}</p>
+                    <p>{{ formattedDate }}</p>
                 </div>
                 <div class="w-full h-px bg-gray-300/60"></div>
                 <div class="flex items-center w-full justify-between">
@@ -44,6 +44,20 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+
+
+const formattedDate = computed(() => {
+    return new Date(props.date).toLocaleDateString('it-IT', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+    })
+})
+
+const emit = defineEmits<{
+    (e: 'delete'): void
+}>()
 const props = defineProps({
     name: {
         required: true,
@@ -61,10 +75,6 @@ const props = defineProps({
         required: true,
         type: String
     },
-    deleteFunction: {
-        required: true,
-        type: Function
-    }
 })
 </script>
 

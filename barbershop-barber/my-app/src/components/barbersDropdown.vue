@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col w-64 text-sm relative pl-4 pt-2">
         <p class="font-medium text-gray-800 py-4 ">Filtra per:</p>
-        <button type="button"  v-on:click="() => setIsOpen(!isOpen)"
+        <button aria-haspopup="listbox" :aria-expanded="isOpen" type="button" @click.stop v-on:click="toggleDropdown"
             class="cursor-pointer group flex items-center justify-between w-full text-left px-2 py-2 border rounded bg-white text-gray-700 border-gray-300 shadow-sm hover:bg-gray-50 focus:outline-none">
             <div class="flex items-center gap-2">
                 <img class="w-6 h-6 rounded-full" :src="selectedBarber?.image" :alt="selectedBarber?.name" />
@@ -15,12 +15,12 @@
             </svg>
         </button>
         <ul v-if="isOpen" class="w-64 bg-white border border-gray-300 rounded shadow-md mt-1 py-2 right-0">
-            <li v-for="value in users" :key="value.name" :class="[
+            <li v-for="value in users" :key="value.id" :class="[
                 'px-2 py-2 flex items-center gap-2 cursor-pointer',
                 value.name === selectedBarber?.name
                     ? 'bg-indigo-500 text-white'
                     : 'hover:bg-indigo-500 hover:text-white text-gray-600'
-            ]" v-on:click="(e) => { e.stopPropagation(); setSelectedBarber(value); changeSelected(value.id) }">
+            ]" @click="selectBarber(value)">
                 <img class="w-6 h-6 rounded-full" :src="value.image" :alt="value.name" />
                 <span>{{ value.name }}</span>
             </li>
@@ -29,14 +29,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onBeforeUnmount, onMounted, ref } from 'vue';
 
-const props = defineProps({
-    changeSelected: {
-        type: Function,
-        required: true
-    }
+interface User {
+    id: number
+    name: string
+    image: string
+}
+
+const emit = defineEmits<{
+    (e: 'change', id: number): void
+}>()
+
+const handleClickOutside = (e: MouseEvent) => {
+    isOpen.value = false
+}
+
+onMounted(() => {
+    document.addEventListener('click', handleClickOutside)
 })
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClickOutside)
+})
+
+const selectBarber = (barber: User) => {
+    selectedBarber.value = barber
+    isOpen.value = false
+    emit('change', barber.id)
+}
+
+const toggleDropdown = () => {
+    isOpen.value = !isOpen.value
+}
 
 const users = [
     {
@@ -59,13 +84,6 @@ const users = [
 const isOpen = ref(false)
 const selectedBarber = ref(users[0])
 
-const setIsOpen = (value: boolean) => {
-    isOpen.value = value
-}
-
-const setSelectedBarber = (barber: any) => {
-    selectedBarber.value = barber
-}
 </script>
 
 <style scoped></style>
