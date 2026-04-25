@@ -1,12 +1,10 @@
 package com.barbershop.barber.models;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 @Builder
-@Getter
-@Setter
+@Data
 public class LoginRequest {
      private String username;
      private String password;

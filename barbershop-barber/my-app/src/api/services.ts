@@ -9,7 +9,7 @@ const getServiceById = (id: number) => api.get(url + "/" + id);
 
 const deleteService = (id: number) => api.delete(url + "/" + id);
 const createService = (body: CreateServiceRequest, file: File) => {
-  if (!keycloak.value?.token) throw Error('Missing token')
+  if (!keycloak.value?.token) throw Error("Missing token");
   const formData = new FormData();
 
   formData.append("name", body.name);

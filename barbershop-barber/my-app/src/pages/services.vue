@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import IftaLabel from 'primevue/iftalabel';
 import InputText from 'primevue/inputtext';
-import { ref, watch, watchEffect } from 'vue';
+import { ref, watch } from 'vue';
 import { createService, getAllServices } from '../api/services';
 import AltServiceCard from '../components/altServiceCard.vue';
 import FileInput from '../components/fileInput.vue';

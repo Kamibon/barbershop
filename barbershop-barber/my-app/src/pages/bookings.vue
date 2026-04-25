@@ -14,7 +14,7 @@
             aria-live="polite">
             Nessun risultato trovato
         </div>
-        <ConfirmModal :is-open="selectedAppointment" @confirm="confirmDelete"
+        <ConfirmModal :is-open="selectedAppointment !== null" @confirm="confirmDelete"
             @deny="setSelectedAppointment(null)" />
     </Layout>
 </template>

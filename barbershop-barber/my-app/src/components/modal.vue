@@ -1,6 +1,5 @@
 <template>
-    <div v-if="isOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-        @keydown.esc="(e) => emit('cancel')">
+    <div v-if="isOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
         <div class="bg-white rounded-lg p-6 max-w-md w-full text-center shadow-lg" role="dialog"
             aria-labelledby="modal-title" aria-describedby="modal-description">
             <h2 id="modal-title" class="text-xl text-black font-semibold mb-4">{{ title }}</h2>
