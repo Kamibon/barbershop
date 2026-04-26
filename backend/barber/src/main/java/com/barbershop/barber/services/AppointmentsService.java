@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -51,9 +54,10 @@ public class AppointmentsService {
         appointmentsRepository.save(appointment);
     }
 
-    public List<Appointment> findAppointments() {
+    public Page<Appointment> findAppointments(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
         logger.info("Ricerca appuntamenti");
-        return appointmentsRepository.findAll();
+        return appointmentsRepository.findAll(pageable);
     }
 
     public Appointment findAppointmentById(Long id) {

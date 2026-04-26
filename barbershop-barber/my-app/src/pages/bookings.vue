@@ -10,7 +10,7 @@
                 :date="`${new Date(value.date).toLocaleDateString()} ${value.dateTime}`"
                 :service="value.service.name" @delete="setSelectedAppointment(value.id)" />
         </div>
-        <div class="text-black font-semibold pl-4" v-if="!appointments.length || !filteredAppointments.length"
+        <div class="text-black font-semibold pl-4" v-if="!appointments.content.length || !filteredAppointments.length"
             aria-live="polite">
             Nessun risultato trovato
         </div>
@@ -28,7 +28,7 @@ import BarbersDropdown from '../components/barbersDropdown.vue';
 import ConfirmModal from '../components/confirmModal.vue';
 import type { Booking } from '../dtos/booking';
 
-const appointments = ref<Booking[]>([]);
+const appointments = ref<{content: Booking[]}>({content: []});
 const selectedBarber = ref(0);
 const selectedAppointment = ref<number | null>(null);
 const isLoading = ref(false);
@@ -36,9 +36,9 @@ const error = ref<string | null>(null);
 
 const filteredAppointments = computed(() => {
     if (selectedBarber.value === 0) {
-        return appointments.value;
+        return appointments.value.content;
     }
-    return appointments.value.filter(item => item.barber.id === selectedBarber.value);
+    return appointments.value.content.filter(item => item.barber.id === selectedBarber.value);
 });
 
 const loadAppointments = async () => {

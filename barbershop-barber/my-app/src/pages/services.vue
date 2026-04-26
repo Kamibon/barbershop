@@ -2,11 +2,11 @@
     <Layout>
         <div class=" flex flex-col gap-2 items-center">
             <div class="p-4 items-center grid-cols-2 grid md:grid-cols-4 gap-4 w-full">
-                <AltServiceCard :key="value.id" v-for="value in services" :id="value.id" :name="value.name"
+                <AltServiceCard :key="value.id" v-for="value in services.content" :id="value.id" :name="value.name"
                     :price="value.price" :duration="value.duration" :imageUrl="value.imagePath"
                     :update="() => updated = true" />
             </div>
-            <div v-if="!services.length" class="flex flex-col items-center justify-center gap-2">
+            <div v-if="!services.content.length" class="flex flex-col items-center justify-center gap-2">
                 <h1 class="text-black font-semibold">Inserisci qui i tuoi servizi</h1>
                 <span class="text-red-400 font-semibold animate-bounce text-xl">⬇</span>
             </div>
@@ -47,7 +47,7 @@ import Modal from '../components/modal.vue';
 import type { Service } from '../dtos/service';
 import Layout from './layout.vue';
 
-const services = ref<Service[]>([])
+const services = ref<{content: Service[]}>({content: []})
 const openModal = ref(false)
 const updated = ref(false)
 const serviceRequest = ref(
