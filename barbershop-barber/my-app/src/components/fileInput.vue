@@ -1,10 +1,15 @@
 <template>
   <div>
-    <div class="cursor-pointer rounded-xl border border-gray-400 shadow" v-bind="getRootProps()">
+    <div
+      class="cursor-pointer rounded-xl border border-gray-400 shadow"
+      v-bind="getRootProps()"
+    >
       <div v-if="!selectedFile">
         <input v-bind="getInputProps()" />
         <p class="text-[#C9A24D]" v-if="isDragActive">Rilascia qui ...</p>
-        <p class="text-gray-400" v-else>Rilascia file qui, o clicca per selezionare file</p>
+        <p class="text-gray-400" v-else>
+          Rilascia file qui, o clicca per selezionare file
+        </p>
       </div>
       <p v-else class="text-gray-400">Hai inserito il file.</p>
     </div>
@@ -19,24 +24,24 @@ import { defineProps, onUnmounted, ref } from "vue";
 const props = defineProps({
   onSelectFile: {
     type: Function,
-    required: true
-  }
+    required: true,
+  },
 });
 
-const selectedFile = ref(false)
+const selectedFile = ref(false);
 
 const onDrop = (acceptFiles) => {
   if (acceptFiles.length > 0) {
     props.onSelectFile(acceptFiles[0]);
-    selectedFile.value = true
+    selectedFile.value = true;
   }
 };
 
 onUnmounted(() => {
-  selectedFile.value = false
-})
+  selectedFile.value = false;
+});
 
 const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
-  onDrop
+  onDrop,
 });
 </script>

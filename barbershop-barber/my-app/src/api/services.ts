@@ -4,7 +4,7 @@ import keycloak from "../keycloak/keycloak";
 
 const url = "api/services";
 
-const getAllServices = () => api.get<{content:Service[]}>(url);
+const getAllServices = () => api.get<{ content: Service[] }>(url);
 const getServiceById = (id: number) => api.get(url + "/" + id);
 
 const deleteService = (id: number) => api.delete(url + "/" + id);
