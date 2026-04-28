@@ -6,7 +6,7 @@
     >
       <div v-if="!selectedFile">
         <input v-bind="getInputProps()" />
-        <p class="text-[#C9A24D]" v-if="isDragActive">Rilascia qui ...</p>
+        <p class="text-brand-primary" v-if="isDragActive">Rilascia qui ...</p>
         <p class="text-gray-400" v-else>
           Rilascia file qui, o clicca per selezionare file
         </p>

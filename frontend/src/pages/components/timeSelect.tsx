@@ -42,7 +42,7 @@ const TimeSelect: React.FC<TimeSelectProps> = ({
 
   return (
     <select
-      className="  bg-white border border-[#C9A24D] rounded-2xl p-2 text-lg"
+      className="  bg-white border border-brand-primary rounded-2xl p-2 text-lg"
       value={value}
       onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
         onChange(e.target.value)

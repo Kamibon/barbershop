@@ -14,7 +14,7 @@ export const Layout = (props: Props) => {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className=" bg-linear-to-b from-[#0F0F0F] to-[#C9A24D] w-full h-30 flex items-center justify-around">
+      <div className=" bg-linear-to-b from-brand-secondary to-brand-primary w-full h-30 flex items-center justify-around">
         <FaHome
           onClick={() => onChangeTab(0)}
           className="lg:hidden cursor-pointer hover:text-amber-500 size-6"

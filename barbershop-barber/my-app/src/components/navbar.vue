@@ -1,6 +1,6 @@
 <template>
   <div
-    className=" bg-linear-to-b from-[#0F0F0F] to-[#C9A24D] w-full h-30 flex items-center justify-around"
+    className=" bg-linear-to-b from-brand-secondary to-brand-primary w-full h-30 flex items-center justify-around"
   >
     <i
       style="font-size: x-large"

@@ -2,7 +2,7 @@
     <Layout>
         <div class="flex flex-col gap-2 items-center">
             <div class="p-4 items-center grid-cols-2 grid md:grid-cols-4 gap-4 w-full">
-                <AltServiceCard :key="value.id" v-for="value in services.content" :id="value.id" :name="value.name"
+                <AltServiceCard :key="value.id" v-for="value in paginatedItems" :id="value.id" :name="value.name"
                     :price="value.price" :duration="value.duration" :imageUrl="value.imagePath"
                     :update="() => (updated = true)" />
             </div>
@@ -10,13 +10,16 @@
                 <h1 class="text-black font-semibold">Inserisci qui i tuoi servizi</h1>
                 <span class="text-red-400 font-semibold animate-bounce text-xl">⬇</span>
             </div>
-            <i class="cursor-pointer pi pi-plus bg-gray-400 hover:bg-amber-500 rounded-full p-4"
+            <Pagination :currentPage="currentPage" :totalItems="services.content.length" :itemsPerPage="itemsPerPage"
+                @update:currentPage="currentPage = $event" />
+            <i class="cursor-pointer pi pi-plus bg-gray-400 hover:bg-brand-primary rounded-full p-4"
                 aria-label="Clicca per aggiungere servizi" v-on:click="
                     () => {
                         setModalOpen(true);
                     }
                 "></i>
         </div>
+
         <Modal :is-open="openModal" @confirm="sendRequest" @cancel="() => setModalOpen(false)"
             title="Aggiungi servizio">
             <div class="w-full flex flex-col gap-2 p-4">
@@ -41,10 +44,11 @@
 <script setup lang="ts">
 import IftaLabel from "primevue/iftalabel";
 import InputText from "primevue/inputtext";
-import { ref, watch } from "vue";
+import { computed, ref, watch } from "vue";
 import { createService, getAllServices } from "../api/services";
 import AltServiceCard from "../components/altServiceCard.vue";
 import FileInput from "../components/fileInput.vue";
+import Pagination from "../components/pagination.vue";
 import Modal from "../components/modal.vue";
 import type { Service } from "../dtos/service";
 import Layout from "./layout.vue";
@@ -58,6 +62,14 @@ const serviceRequest = ref({
     duration: 0,
 });
 const selectedFile = ref<File | null>(null);
+
+const currentPage = ref(1);
+const itemsPerPage = 10;
+
+const paginatedItems = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage;
+    return services.value.content.slice(start, start + itemsPerPage);
+});
 
 const loadServices = async () => {
     try {

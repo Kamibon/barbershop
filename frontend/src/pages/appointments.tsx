@@ -60,7 +60,7 @@ export const Appointments = () => {
         open={failed}
         onClose={() => setFailed(false)}
       />
-      <span className=" font-bold text-[#0F0F0F] text-lg lg:text-3xl ">
+      <span className=" font-bold text-brand-secondary text-lg lg:text-3xl ">
         Scegli il giorno che vuoi tu, all'orario che vuoi tu, con il barbiere
         che vuoi tu!
       </span>
@@ -80,7 +80,7 @@ export const Appointments = () => {
             ? "font-semibold text-base text-[#2B2B2B] cursor-pointer p-3"
             : date !== chosenDate
               ? "text-gray-300 text-base p-3 cursor-not-allowed"
-              : "font-semibold bg-[#0F0F0F] rounded-full text-base text-white cursor-pointer p-3"
+              : "font-semibold bg-brand-secondary rounded-full text-base text-white cursor-pointer p-3"
         }
         className={
           "rounded-2xl border p-3 shadow-2xl border-gray-400 mt-2 flex flex-col items-center"
@@ -94,7 +94,7 @@ export const Appointments = () => {
               barbers.find((elem) => elem.name === e.target.value)!.id,
             )
           }
-          className=" bg-white border border-[#C9A24D] rounded-2xl p-2 text-lg"
+          className=" bg-white border border-brand-primary rounded-2xl p-2 text-lg"
         >
           <option>Seleziona il barbiere</option>
           {barbers.map((item) => (
@@ -108,7 +108,7 @@ export const Appointments = () => {
               allServices.find((elem) => elem.name === e.target.value)!.id,
             )
           }
-          className=" bg-white border border-[#C9A24D] rounded-2xl p-2 text-lg"
+          className=" bg-white border border-brand-primary rounded-2xl p-2 text-lg"
         >
           <option>Seleziona il servizio</option>
           {allServices.map((item) => (
@@ -120,13 +120,13 @@ export const Appointments = () => {
           onChange={(value) => setChosenTime(value)}
         />
         <input
-          className=" bg-white border border-[#C9A24D] rounded-2xl p-2 w-full md:grow text-lg"
+          className=" bg-white border border-brand-primary rounded-2xl p-2 w-full md:grow text-lg"
           value={clientName}
           placeholder="Nome e cognome"
           onChange={(e) => setClientName(e.target.value)}
         />
         <input
-          className=" bg-white border border-[#C9A24D] rounded-2xl w-full md:grow p-2 text-lg"
+          className=" bg-white border border-brand-primary rounded-2xl w-full md:grow p-2 text-lg"
           value={phoneNumber?.toString()}
           placeholder="Numero di telefono"
           onChange={(e) => setPhoneNumber(e.target.value)}
@@ -155,7 +155,7 @@ export const Appointments = () => {
             !regexPhone.test(phoneNumber) ||
             !clientName.trim()
           }
-          className="bg-[#C9A24D] cursor-pointer hover:bg-amber-500 disabled:opacity-30 rounded-xl px-4 py-2 text-white"
+          className="bg-brand-primary cursor-pointer hover:bg-amber-500 disabled:opacity-30 rounded-xl px-4 py-2 text-white"
           aria-label="Prenota"
         >
           Prenota

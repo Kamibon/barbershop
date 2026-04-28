@@ -16,8 +16,8 @@ export const Homepage = () => {
     <div className="w-full pb-8">
       <img className="w-full h-125 mb-4" alt="Immagine del locale" src={img} />
       <div className="flex flex-col gap-1 items-center justify-center">
-        <h1 className="text-[#0F0F0F] text-3xl">BARBERSHOP</h1>
-        <h2 className="text-[#C9A24D] text-xl">Diamoci un taglio!</h2>
+        <h1 className="text-brand-secondary text-3xl">BARBERSHOP</h1>
+        <h2 className="text-brand-primary text-xl">Diamoci un taglio!</h2>
         <div className="flex gap-2 items-center">
           <span className="text-red-500 animate-bounce">!!</span>
           <span

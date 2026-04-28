@@ -12,7 +12,7 @@ export const WhoAreWe = () => {
       <div className=" flex flex-col md:flex-row items-center md:items-start gap-4 mt-6">
         <img src={img1} className="w-80 h-80 rounded-2xl" />
         <div className="flex flex-col items-center gap-2 p-4">
-          <span className="text-[#0F0F0F] font-bold text-xl">Mario</span>
+          <span className="text-brand-secondary font-bold text-xl">Mario</span>
           <span className="text-[#2B2B2B] text-center text-base lg:text-lg">
             Mario ha 10 anni di esperienza e una passione per i tagli eleganti e
             senza tempo. Ama consigliare lo stile giusto per ogni cliente e
@@ -23,7 +23,7 @@ export const WhoAreWe = () => {
       <div className=" flex flex-col md:flex-row-reverse items-center md:items-start gap-4 mt-6">
         <img src={img1} className="w-80 h-80 rounded-2xl" />
         <div className="flex flex-col items-center gap-2 p-4">
-          <span className="text-[#0F0F0F] font-bold text-xl">Luigi</span>
+          <span className="text-brand-secondary font-bold text-xl">Luigi</span>
           <span className="text-[#2B2B2B] text-center text-base lg:text-lg">
             Giovane e creativo, Luigi è sempre aggiornato sulle ultime tendenze.
             Perfetto per chi vuole un look alla moda o un tocco unico. La sua
@@ -34,7 +34,7 @@ export const WhoAreWe = () => {
       <div className=" flex flex-col md:flex-row items-center md:items-start gap-4 mt-6">
         <img src={img1} className="w-80 h-80 rounded-2xl" />
         <div className="flex flex-col items-center gap-2 p-4">
-          <span className="text-[#0F0F0F] font-bold text-xl">Paolo</span>
+          <span className="text-brand-secondary font-bold text-xl">Paolo</span>
           <span className="text-[#2B2B2B] text-center text-base lg:text-lg">
             Paolo è il maestro della rasatura tradizionale con pennello e lama.
             Con pazienza e precisione, offre un’esperienza rilassante e

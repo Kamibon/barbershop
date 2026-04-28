@@ -6,8 +6,7 @@
     @mouseleave="resetTilt"
     :style="cardStyle"
   >
-    <!-- <img src="../../public/hair.jpg" alt="City skyline" class="w-full h-52 object-cover" /> -->
-    <img :src="imageSrc" alt="City skyline" class="w-full h-52 object-cover" />
+    <img :src="imageSrc" alt="Card del servizio" class="w-full h-52 object-cover" />
     <h3 class="mt-3 px-4 mb-1 text-base md:text-lg font-semibold text-gray-800">
       {{ name }}
     </h3>

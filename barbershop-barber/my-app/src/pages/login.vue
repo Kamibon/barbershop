@@ -3,7 +3,7 @@
     class="h-screen w-screen background flex flex-col justify-center items-center"
   >
     <span class="text-2xl font-bold text-[#d6a229]">Barbershop</span>
-    <span class="text-[#C9A24D] text-lg text-shadow-2xs font-semibold"
+    <span class="text-brand-primary text-lg text-shadow-2xs font-semibold"
       >Per i tuoi clienti, per te</span
     >
     <div
