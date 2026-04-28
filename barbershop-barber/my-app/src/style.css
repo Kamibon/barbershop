@@ -1,9 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
 @import "tailwindcss";
 
-
-*{
-  font-family: "Lato"
+* {
+  font-family: "Lato";
 }
 
 :root {
@@ -13,7 +12,6 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
- 
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -21,8 +19,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-button{
+button {
   cursor: pointer;
 }
 
-
+@theme {
+  --color-brand-primary: #C9A24D;
+  --color-brand-secondary: #0F0F0F;
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+}

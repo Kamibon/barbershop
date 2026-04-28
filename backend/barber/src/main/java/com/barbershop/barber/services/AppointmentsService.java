@@ -1,16 +1,16 @@
 package com.barbershop.barber.services;
 
-import java.net.http.HttpResponse;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.validation.annotation.Validated;
 
 import com.barbershop.barber.dtos.CreateAppointmentRequest;
 import com.barbershop.barber.models.Appointment;
@@ -21,19 +21,17 @@ import com.barbershop.barber.repositories.ServiceRepository;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
+@Validated
 public class AppointmentsService {
 
-     private static final Logger logger = LoggerFactory.getLogger(AppointmentsService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppointmentsService.class);
 
-    @Autowired
     AppointmentsRepository appointmentsRepository;
-
-    @Autowired
     BarberRepository barberRepository;
-
-    @Autowired
     ServiceRepository serviceRepository;
 
     @Transactional
@@ -41,9 +39,11 @@ public class AppointmentsService {
         Barber barber = barberRepository.getReferenceById(request.getBarberId());
         Boolean taken = isAppointmentTaken(request.getBarberId(), request.getDate(), request.getDateTime());
         logger.info("L'appuntamento è stato preso: " + taken);
-        logger.info("Verifica appuntamento: BarberId: {}, Date: {}, DateTime: {}", request.getBarberId(), request.getDate(), request.getDateTime());
+        logger.info("Verifica appuntamento: BarberId: {}, Date: {}, DateTime: {}", request.getBarberId(),
+                request.getDate(), request.getDateTime());
 
-        if(taken == true) throw new RuntimeException("Date, time and barber already taken");
+        if (taken)
+            throw new RuntimeException("Date, time and barber already taken");
         Appointment appointment = new Appointment();
         appointment.setClientName(request.getClientName());
         appointment.setDateTime(request.getDateTime());
@@ -54,19 +54,24 @@ public class AppointmentsService {
         appointmentsRepository.save(appointment);
     }
 
-    public List<Appointment> findAppointments() {
-        return appointmentsRepository.findAll();
+    public Page<Appointment> findAppointments(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        logger.info("Ricerca appuntamenti");
+        return appointmentsRepository.findAll(pageable);
     }
 
     public Appointment findAppointmentById(Long id) {
+        logger.info("Ricerca appuntamento tramite id");
         return appointmentsRepository.findById(id).orElseThrow();
     }
 
     public List<Appointment> findAppointmentsByBarberId(Long id) {
+        logger.info("Ricerca appuntamento tramite id del barbiere");
         return appointmentsRepository.findByBarberId(id);
     }
 
     public void deleteAppointment(Long id) {
+        logger.info("Eliminazione appuntamento");
         Appointment appointment = appointmentsRepository.findById(id)
                 .orElseThrow();
 
@@ -83,11 +88,10 @@ public class AppointmentsService {
         List<Appointment> appointments = appointmentsRepository.findByBarberId(barberId);
 
         for (Appointment appointment : appointments) {
-            if (appointment.getBarber().getId().equals(barberId)) {
-                if (appointment.getDate().toLocalDate().equals(date.toLocalDate()) &&
-                        LocalTime.parse(appointment.getDateTime()).equals(appointmentTime)) {
-                    return true;
-                }
+
+            if (appointment.getDate().toLocalDate().equals(date.toLocalDate()) &&
+                    LocalTime.parse(appointment.getDateTime()).equals(appointmentTime)) {
+                return true;
             }
 
         }

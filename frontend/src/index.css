@@ -13,3 +13,12 @@
 body {
   margin: 0;
 }
+
+@theme {
+  --color-brand-primary: #C9A24D;
+  --color-brand-secondary: #0F0F0F;
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+}

@@ -1,23 +1,21 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Login from '../pages/login.vue'
-import Services from '../pages/services.vue'
-import Bookings from '../pages/bookings.vue'
-
+import { createRouter, createWebHistory } from "vue-router";
+import Bookings from "../pages/bookings.vue";
+import Services from "../pages/services.vue";
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
-      path: '/',
-      name: 'services',
-      component: Services
+      path: "/",
+      name: "services",
+      component: Services,
     },
     {
-      path: '/bookings',
-      name: 'bookings',
-      component: Bookings
-    }
-  ]
-})
+      path: "/bookings",
+      name: "bookings",
+      component: Bookings,
+    },
+  ],
+});
 
-export default router
+export default router;
