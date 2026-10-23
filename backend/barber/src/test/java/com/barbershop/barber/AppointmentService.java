@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
+import com.barbershop.barber.dtos.AppointmentResponse;
 import com.barbershop.barber.dtos.CreateAppointmentRequest;
 import com.barbershop.barber.models.Appointment;
 import com.barbershop.barber.models.Barber;
@@ -96,10 +97,10 @@ class AppointmentsServiceTest {
 
         when(appointmentsRepository.findById(1L)).thenReturn(Optional.of(appointment));
 
-        Appointment result = appointmentsService.findAppointmentById(1L);
+        AppointmentResponse result = appointmentsService.findAppointmentById(1L);
 
         assertNotNull(result);
-        assertEquals(1L, result.getId());
+        assertEquals(1L, result.id());
     }
 
     @Test

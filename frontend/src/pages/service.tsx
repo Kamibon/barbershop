@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useService } from "../stores/serviceStore";
 import ServiceCard from "./components/serviceCard";
 
@@ -14,11 +14,7 @@ export const Service = () => {
         serviceStore.findAllServiceResponse.map((item) => (
           <ServiceCard
             key={item.id}
-            id={item.id}
-            name={item.name}
-            duration={item.duration}
-            price={item.price}
-            imageUrl={item.imagePath}
+            {...item}
           />
         ))
       ) : (

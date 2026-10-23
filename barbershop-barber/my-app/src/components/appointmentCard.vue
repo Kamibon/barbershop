@@ -65,6 +65,7 @@
 import { computed } from "vue";
 
 const formattedDate = computed(() => {
+
   return new Date(props.date).toLocaleDateString("it-IT", {
     day: "2-digit",
     month: "short",

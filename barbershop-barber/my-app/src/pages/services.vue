@@ -1,10 +1,11 @@
 <template>
     <Layout>
         <div class="flex flex-col gap-2 items-center">
-            <div class="p-4 items-center grid-cols-2 grid md:grid-cols-4 gap-4 w-full">
+            <div
+                class="p-4 items-center sm:grid-cols-2 flex flex-col  justify-center sm:grid md:grid-cols-4 gap-4 w-full">
                 <AltServiceCard :key="value.id" v-for="value in paginatedItems" :id="value.id" :name="value.name"
                     :price="value.price" :duration="value.duration" :imageUrl="value.imagePath"
-                    :update="() => (updated = true)" />
+                    :update="() => (updated = true)" @delete="setServiceToDelete" />
             </div>
             <div v-if="!services.content.length" class="flex flex-col items-center justify-center gap-2">
                 <h1 class="text-black font-semibold">Inserisci qui i tuoi servizi</h1>
@@ -19,7 +20,8 @@
                     }
                 "></i>
         </div>
-
+        <ConfirmModal :is-open="!!serviceToDelete" @deny="serviceToDelete = null"
+            @confirm="deleteOneService(serviceToDelete!)" />
         <Modal :is-open="openModal" @confirm="sendRequest" @cancel="() => setModalOpen(false)"
             title="Aggiungi servizio">
             <div class="w-full flex flex-col gap-2 p-4">
@@ -45,16 +47,18 @@
 import IftaLabel from "primevue/iftalabel";
 import InputText from "primevue/inputtext";
 import { computed, ref, watch } from "vue";
-import { createService, getAllServices } from "../api/services";
+import { createService, deleteService, getAllServices } from "../api/services";
 import AltServiceCard from "../components/altServiceCard.vue";
 import FileInput from "../components/fileInput.vue";
-import Pagination from "../components/pagination.vue";
+import ConfirmModal from "../components/confirmModal.vue";
 import Modal from "../components/modal.vue";
+import Pagination from "../components/pagination.vue";
 import type { Service } from "../dtos/service";
 import Layout from "./layout.vue";
 
 const services = ref<{ content: Service[] }>({ content: [] });
 const openModal = ref(false);
+const serviceToDelete = ref<number | null>(null)
 const updated = ref(false);
 const serviceRequest = ref({
     name: "",
@@ -89,7 +93,23 @@ watch(updated, (newValue) => {
     }
 });
 
+
+
 const setModalOpen = (value: boolean) => (openModal.value = value);
+
+const setServiceToDelete = (id: number | null) => serviceToDelete.value = id;
+
+const deleteOneService = (id: number) => {
+    try {
+        deleteService(id)
+        services.value.content = services.value.content.filter(item => item.id !== id)
+        setServiceToDelete(null)
+    } catch (error) {
+        
+    }
+    
+    
+}
 
 const setFile = (file: File) => (selectedFile.value = file);
 

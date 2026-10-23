@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
+import java.math.BigDecimal;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -17,6 +18,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.barbershop.barber.dtos.CreateServiceRequest;
+import com.barbershop.barber.dtos.ServiceResponse;
 import com.barbershop.barber.models.Service;
 import com.barbershop.barber.repositories.AppointmentsRepository;
 import com.barbershop.barber.repositories.ServiceRepository;
@@ -36,27 +39,27 @@ public class ServiceServiceTest {
     @InjectMocks
     private ServiceService serviceService;
 
-    private Service service;
+    private CreateServiceRequest service;
 
     @BeforeEach
     private void setup() {
-        service = Service.builder().id(1L).name("Capelli").price(10).build();
+        service = new CreateServiceRequest("Capelli", 10, new BigDecimal(10), null);
     }
 
     @Test
     void addService_shouldSaveService() {
         serviceService.addService(service);
 
-        verify(serviceRepository).save(service);
+        verify(serviceRepository).save(any(Service.class));
     }
 
     @Test
     void getServiceById_shouldReturnService_whenExists() {
-        when(serviceRepository.findById(1L)).thenReturn(Optional.of(service));
+        when(serviceRepository.findById(1L)).thenReturn(Optional.of(mock(Service.class)));
 
-        Service result = serviceService.getServiceById(1L);
+        ServiceResponse result = serviceService.getServiceById(1L);
 
-        assertEquals(service, result);
+        assertNotNull(result);
     }
 
     @Test
@@ -81,7 +84,7 @@ public class ServiceServiceTest {
     @Test
     void deleteService_shouldDelete_whenServiceNotUsed() {
         when(appointmentRepository.existsByServiceId(1L)).thenReturn(false);
-        when(serviceRepository.findById(1L)).thenReturn(Optional.of(service));
+        when(serviceRepository.findById(1L)).thenReturn(Optional.of(mock(Service.class)));
 
         serviceService.deleteService(1L);
 

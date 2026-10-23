@@ -1,5 +1,7 @@
 package com.barbershop.barber.utils;
 
+import java.math.BigDecimal;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -22,17 +24,17 @@ public class DatabaseInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
-        serviceRepository.save(new Service(null, "Taglio capelli", 30, 25.0, null));
-        serviceRepository.save(new Service(null, "Barba", 20, 15.0, null));
-        serviceRepository.save(new Service(null, "Colore", 60, 45.0, null));
+        serviceRepository.save(new Service("Colore", 30, new BigDecimal(10), null));
+        serviceRepository.save(new Service("Shampoo", 20, new BigDecimal(15), null));
+        serviceRepository.save(new Service("Taglio", 60, new BigDecimal(45), null));
 
         if (barberRepository.count() == 0) {
             barberRepository.save(
-                    new Barber(null, "Mario", "Rossi", "3331234567"));
+                    new Barber("Mario", "Rossi", "3102345678"));
             barberRepository.save(
-                    new Barber(null, "Luigi", "Verdi", "3339876543"));
+                    new Barber("Luigi", "Verdi", "377766888"));
             barberRepository.save(
-                    new Barber(null, "Paolo", "Bianchi", "3205554444"));
+                    new Barber("Paolo", "Bianchi", "322444555"));
         }
     }
 }

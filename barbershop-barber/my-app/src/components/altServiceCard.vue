@@ -1,11 +1,11 @@
 <template>
   <div
-    class="rounded-xl shadow-xl overflow-hidden transition-transform duration-200 ease-out cursor-pointer bg-white"
-    @mouseenter="handleEnter"
-    @mousemove="handleMove"
-    @mouseleave="resetTilt"
-    :style="cardStyle"
-  >
+    class="rounded-xl shadow-xl overflow-hidden transition-transform duration-200 ease-out cursor-pointer bg-white relative"
+    @mouseenter="handleEnter" @mousemove="handleMove" @mouseleave="resetTilt" :style="cardStyle">
+    <button @click="() => emit('delete', id)"
+      class="rounded-full size-6 bg-white absolute top-[2%] right-[2%] z-20 flex items-center justify-center">
+      <i class="pi pi-times text-red-500" />
+    </button>
     <img :src="imageSrc" alt="Card del servizio" class="w-full h-52 object-cover" />
     <h3 class="mt-3 px-4 mb-1 text-base md:text-lg font-semibold text-gray-800">
       {{ name }}
@@ -26,6 +26,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import { bUrl } from "../main";
+import { deleteService, getAllServices } from "../api/services";
 
 const imageSrc = computed(() =>
   props.imageUrl ? bUrl + props.imageUrl : "/hair.jpg",
@@ -62,6 +63,7 @@ const resetTilt = () => {
   tilt.value = { x: 0, y: 0 };
 };
 
+
 const cardStyle = computed(() => ({
   transform: `perspective(1000px) rotateX(${tilt.value.x}deg) rotateY(${tilt.value.y}deg)`,
 }));
@@ -92,6 +94,9 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emit = defineEmits(["delete"]);
+
 </script>
 
 <style scoped></style>

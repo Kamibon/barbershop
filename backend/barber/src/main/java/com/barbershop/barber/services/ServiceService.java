@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.barbershop.barber.dtos.CreateServiceRequest;
+import com.barbershop.barber.dtos.ServiceResponse;
+import com.barbershop.barber.mappers.ServiceMapper;
 import com.barbershop.barber.models.Service;
 import com.barbershop.barber.repositories.AppointmentsRepository;
 import com.barbershop.barber.repositories.ServiceRepository;
@@ -20,42 +23,50 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @org.springframework.stereotype.Service
-@AllArgsConstructor
+@AllArgsConstructor 
 @Validated
 public class ServiceService {
 
     private static final Logger logger = LoggerFactory.getLogger(ServiceService.class);
 
-    private ServiceRepository serviceRepository;
-    private AppointmentsRepository appointmentRepository;
+    private final ServiceRepository serviceRepository;
+    private final AppointmentsRepository appointmentRepository;
 
-    public Page<Service> getAllServices(int page, int size) {
+    public Page<ServiceResponse> getAllServices(int page, int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("name"));
         logger.info("Ricerca servizi");
-        return serviceRepository.findAll(pageable);
+        return serviceRepository.findAll(pageable).map(ServiceMapper::toResponse);
     }
 
-    public Service getServiceById(Long id) {
-        logger.info("Ricerca servizio tramite id");
-        Service service = serviceRepository.findById(id).orElseThrow();
-        return service;
+    public ServiceResponse getServiceById(Long id) {
+        logger.info("Ricerca servizio con id: {}", id);
+
+        Service service = serviceRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Servizio non trovato"));
+
+        return ServiceMapper.toResponse(service);
     }
 
-    public void addService(@Valid Service service) {
+    public ServiceResponse addService(@Valid CreateServiceRequest serviceRequest) {
         logger.info("Creazione servizio");
-        serviceRepository.save(service);
+        Service service = Service.builder().name(serviceRequest.getName()).price(serviceRequest.getPrice())
+                .duration(serviceRequest.getDuration()).imagePath(serviceRequest.getImagePath()).build();
+        return ServiceMapper.toResponse(serviceRepository.save(service));
     }
 
     @Transactional
     public void deleteService(Long id) {
-        logger.info("Eliminazione servizio");
+        logger.info("Eliminazione servizio con id: {}", id);
+
+        Service service = serviceRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Servizio non trovato"));
+
         if (appointmentRepository.existsByServiceId(id)) {
             throw new ResponseStatusException(
                     HttpStatus.CONFLICT,
-                    "Impossibile eliminare: service in uso");
+                    "Impossibile eliminare: il servizio è utilizzato da appuntamenti");
         }
-        Service service = serviceRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Service not found"));
-        serviceRepository.deleteById(id);
+
+        serviceRepository.delete(service);
     }
 }

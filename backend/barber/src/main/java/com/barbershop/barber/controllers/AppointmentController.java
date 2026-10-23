@@ -16,61 +16,66 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.barbershop.barber.dtos.AppointmentResponse;
 import com.barbershop.barber.dtos.CreateAppointmentRequest;
-import com.barbershop.barber.models.Appointment;
 import com.barbershop.barber.models.Barber;
 import com.barbershop.barber.repositories.BarberRepository;
 import com.barbershop.barber.services.AppointmentsService;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 
 @RestController
-@AllArgsConstructor
+@AllArgsConstructor 
 @RequestMapping("/appointments")
 public class AppointmentController {
 
-    AppointmentsService appointmentsService;
+    private final AppointmentsService appointmentsService;
 
-    BarberRepository barberRepository;
+    private final BarberRepository barberRepository;
 
     @GetMapping
-    public Page<Appointment> findAppointments(@RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return appointmentsService.findAppointments(page, size);
+    public ResponseEntity<Page<AppointmentResponse>> findAppointments(
+            @RequestParam(defaultValue = "0") @Min(0) int page,
+            @RequestParam(defaultValue = "10") @Min(1) @Max(100) int size) {
+        return ResponseEntity.ok(appointmentsService.findAppointments(page, size));
     }
 
     @GetMapping("/{id}")
-    public Appointment findAppointmentById(@PathVariable Long id) {
-        return appointmentsService.findAppointmentById(id);
+    public ResponseEntity<AppointmentResponse> findAppointmentById(@PathVariable @Positive Long id) {
+        return ResponseEntity.ok(appointmentsService.findAppointmentById(id));
     }
 
     @GetMapping("/barber/{id}")
-    public List<Appointment> getAppointmentsByBarberId(@PathVariable Long id) {
-        return appointmentsService.findAppointmentsByBarberId(id);
+    public ResponseEntity<List<AppointmentResponse>> getAppointmentsByBarberId(@PathVariable @Positive Long id) {
+        return ResponseEntity.ok(appointmentsService.findAppointmentsByBarberId(id));
     }
 
     @GetMapping("/barber/apps")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<Appointment> getAppointmentsByBarberName(Authentication auth) {
+    @PreAuthorize("hasAuthority('admin')")
+    public ResponseEntity<List<AppointmentResponse>> getAppointmentsByBarberName(Authentication auth) {
         Barber barber = barberRepository.findByName(auth.getName());
-        return appointmentsService.findAppointmentsByBarberId(barber.getId());
+        return ResponseEntity.ok(appointmentsService.findAppointmentsByBarberId(barber.getId()));
     }
 
     @PostMapping
-    public ResponseEntity<String> createAppointment(@RequestBody CreateAppointmentRequest appointment) {
-        try {
-            appointmentsService.createAppointment(appointment);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Appointment created successfully");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-        }
+    public ResponseEntity<AppointmentResponse> createAppointment(
+            @RequestBody @Valid CreateAppointmentRequest appointment) {
+
+        AppointmentResponse created = appointmentsService.createAppointment(appointment);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
 
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @DeleteMapping("/{id}")
-    public void deleteAppointment(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteAppointment(@PathVariable @Positive Long id) {
         appointmentsService.deleteAppointment(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

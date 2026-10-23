@@ -1,17 +1,17 @@
-import React, { useState, useCallback } from "react";
-import { bUrl } from "../../App";
+import { useCallback, useState } from "react";
 import { PiClock, PiMoney } from "react-icons/pi";
+import { bUrl } from "../../types/constants";
 
 interface Props {
   id: number;
   name: string;
   duration: number;
   price: number;
-  imageUrl: string;
+  imagePath: string;
 }
 
 const ServiceCard = (props: Props) => {
-  const { id, name, duration, price, imageUrl } = props;
+  const { name, duration, price, imagePath } = props;
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
 
   const threshold = 12;
@@ -48,7 +48,7 @@ const ServiceCard = (props: Props) => {
       onMouseLeave={resetTilt}
     >
       <img
-        src={imageUrl ? `${bUrl}${imageUrl}` : "/hair.jpg"}
+        src={imagePath ? `${bUrl}${imagePath}` : "/hair.jpg"}
         alt="City skyline"
         className="w-full h-52 object-cover rounded-t-2xl"
       />

@@ -1,9 +1,9 @@
 package com.barbershop.barber.dtos;
 
-public class BarberResponse {
-    private Long id;
+public record BarberResponse(
+        Long id,
 
-    private String name;
-    private String surname;
-    private String phoneNumber;
+        String name,
+        String surname,
+        String phoneNumber) {
 }

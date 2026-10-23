@@ -5,40 +5,35 @@ import java.time.ZonedDateTime;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "appointments")
-@Data
-@Builder
+@Getter
+@Setter
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Appointment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    @NotNull
-    String clientName;
+public class Appointment extends BaseEntity {
+
+    private String clientName;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "barber_id", nullable = false)
-    Barber barber;
-    @NotNull
-    ZonedDateTime date;
-    @NotNull
-    String dateTime;
-    @NotNull
-    String phoneNumber;
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    private Barber barber;
+
+    private ZonedDateTime date;
+
+    private String dateTime;
+
+    private String phoneNumber;
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id")
-    Service service;
+    private Service service;
 }

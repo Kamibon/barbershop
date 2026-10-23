@@ -12,8 +12,6 @@ const tabMap = new Map<number, ReactElement>([
   [3, <WhoAreWe />],
 ]);
 
-export const bUrl = "http://localhost:8081";
-
 function App() {
   const [tab, setTab] = useState(0);
 
